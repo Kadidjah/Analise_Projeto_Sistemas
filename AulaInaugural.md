@@ -46,3 +46,58 @@ Desenhe nesta ordem:
 
 Não precisa ficar bonito — o objetivo é mostrar **como a funcionalidade funcionaria**.
 
+# Dinâmica do Desenho
+
+_ _ _
+
+## Exemplo de tela: Facul Resolve
+
+```text
+┌──────────────────────────────┐
+│        📱 FACUL RESOLVE      │
+│                              │
+│      ⚠️ Registrar problema   │
+│                              │
+│ Tipo de problema             │
+│ ┌──────────────────────────┐ │
+│ │ Sala de aula          ▼  │ │
+│ └──────────────────────────┘ │
+│                              │
+│ Local                        │
+│ ┌──────────────────────────┐ │
+│ │ Sala 203                 │ │
+│ └──────────────────────────┘ │
+│                              │
+│ Descrição                   │
+│ ┌──────────────────────────┐ │
+│ │ O projetor não está      │ │
+│ │ funcionando.             │ │
+│ └──────────────────────────┘ │
+│                              │
+│ Foto                         │
+│ ┌──────────────────────────┐ │
+│ │    + Adicionar foto      │ │
+│ └──────────────────────────┘ │
+│                              │
+│ Urgência                     │
+│ 🔴 Alta  🟡 Média  🟢 Baixa │
+│                              │
+│ ┌──────────────────────────┐ │
+│ │    ENVIAR PROBLEMA       │ │
+│ └──────────────────────────┘ │
+└──────────────────────────────┘
+```
+
+## Possíveis problemas
+
+* 🚽 Banheiro sem papel
+* 💡 Lâmpada queimada
+* 📶 Wi-Fi sem funcionar
+* 🪑 Cadeira quebrada
+* ❄️ Ar-condicionado com defeito
+* 💧 Bebedouro sem água
+* 🖥️ Computador da sala com problema
+
+> **Dica:** Cada pessoa pode escolher um problema diferente e criar sua própria versão da tela, deixando os desenhos totalmente diferentes entre si.
+
+
