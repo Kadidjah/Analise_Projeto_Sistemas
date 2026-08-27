@@ -7,7 +7,7 @@ Este projeto é um trabalho acadêmico da disciplina **Engenharia de Software** 
 
 ### 👥 **WHO** (Quem?)
 - **Desenvolvedor(es):** Kadidjah
-- **Instituição:** Universidade de Brasília (UDF)
+- **Instituição:** Centro Universitário UDF 
 - **Disciplina:** Engenharia de Software
 
 ### ⏰ **WHEN** (Quando?)
