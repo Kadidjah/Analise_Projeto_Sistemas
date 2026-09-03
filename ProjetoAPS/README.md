@@ -3,7 +3,7 @@
 ## 5W - Estrutura do Projeto
 
 ### 🔍 **WHAT** (O Quê?)
-Este projeto é um trabalho acadêmico da disciplina **Engenharia de Software** da Universidade de Brasília (UnB/UDF). Ele consiste em uma análise e desenvolvimento de um sistema que aplica princípios e boas práticas da engenharia de software.
+Este projeto é um trabalho acadêmico da disciplina **Análise e Projeto de Sistemas** do curso de Engenharia de Software no UDF. Ele consiste em uma análise e desenvolvimento de um sistema que aplica princípios e boas práticas da engenharia de software.
 
 ### 👥 **WHO** (Quem?)
 - **Desenvolvedor(es):** Kadidjah
