@@ -115,17 +115,7 @@ git commit -m "docs(uml): adiciona diagramas de atividades e objetos do emprést
 
 No `README.md`, informe: objetivo dos diagramas, cenário representado, requisitos relacionados, ferramenta utilizada e links para os artefatos. Entregue o **link do repositório** e identifique o **commit da versão final**.
 
-## 10. Critérios de avaliação sugeridos
-
-| Critério | Peso sugerido |
-|---|---:|
-| Correção do Diagrama de Atividades | 30% |
-| Correção do Diagrama de Objetos | 30% |
-| Coerência com requisitos e classes | 20% |
-| Documentação, organização e GitHub | 20% |
-| **Total** | **100%** |
-
-## 11. Entregáveis obrigatórios
+## 10. Entregáveis obrigatórios
 
 1. Diagrama de Atividades do sistema do grupo.
 2. Diagrama de Objetos de uma situação concreta do sistema.
