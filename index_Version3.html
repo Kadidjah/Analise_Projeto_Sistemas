@@ -6,545 +6,154 @@
   <meta name="theme-color" content="#174c3c">
   <title>Facul Resolve | UDF</title>
   <style>
-    :root {
-      --verde: #174c3c;
-      --verde-escuro: #10382c;
-      --verde-claro: #e8f3ed;
-      --azul: #004c97;
-      --azul-claro: #1ca9e4;
-      --fundo: #f4f7f5;
-      --texto: #202923;
-      --suave: #657069;
-      --borda: #d7dfd9;
-      --branco: #fff;
-      --sombra: 0 12px 32px rgb(23 76 60 / 8%);
-    }
+    :root { --verde:#174c3c; --verde-escuro:#10382c; --verde-claro:#e8f3ed; --azul:#004c97; --azul-claro:#1ca9e4; --fundo:#f4f7f5; --texto:#202923; --suave:#657069; --borda:#d7dfd9; --branco:#fff; --sombra:0 12px 32px rgb(23 76 60 / 8%); }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--fundo); color:var(--texto); font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; line-height:1.5; }
+    header { position:sticky; top:0; z-index:20; background:rgba(255,255,255,.96); border-bottom:3px solid var(--azul-claro); backdrop-filter:blur(8px); }
+    .barra, main, footer > div { width:min(100% - 32px,1120px); margin-inline:auto; }
+    .barra { min-height:78px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    .marca { display:flex; align-items:center; gap:12px; color:var(--verde); font-size:1.25rem; font-weight:800; }
+    .marca img { width:58px; height:58px; object-fit:contain; }
+    nav { display:flex; gap:8px; }
+    nav a { padding:9px 12px; border-radius:8px; color:var(--verde); text-decoration:none; font-weight:700; }
+    nav a:hover { background:var(--verde-claro); }
+    main { padding:38px 0 24px; }
+    .hero { display:grid; grid-template-columns:1fr auto; align-items:end; gap:20px; margin-bottom:22px; }
+    .hero h1 { margin:0 0 7px; font-size:clamp(1.75rem,4vw,2.35rem); line-height:1.15; }
+    .hero p { max-width:650px; margin:0; color:var(--suave); }
+    .badge { display:inline-flex; align-items:center; padding:8px 12px; border:1px solid var(--borda); border-radius:999px; background:var(--branco); color:var(--verde); font-size:.84rem; font-weight:800; white-space:nowrap; }
+    .grid { display:grid; grid-template-columns:minmax(0,1.45fr) minmax(270px,.75fr); gap:22px; align-items:start; }
+    .cartao { padding:24px; border:1px solid var(--borda); border-radius:18px; background:var(--branco); box-shadow:var(--sombra); }
+    .cartao h2 { margin:0 0 18px; font-size:1.16rem; }
+    .campo { margin-bottom:17px; }
+    label, legend { display:block; margin-bottom:7px; font-size:.94rem; font-weight:700; }
+    input[type="text"], select, textarea { width:100%; padding:12px 13px; border:1px solid var(--borda); border-radius:10px; background:var(--branco); color:var(--texto); font:inherit; }
+    textarea { min-height:112px; resize:vertical; }
+    input:focus, select:focus, textarea:focus, button:focus-visible, a:focus-visible { outline:3px solid rgb(28 169 228 / 25%); outline-offset:2px; }
+    .ajuda { display:block; margin-top:6px; color:var(--suave); font-size:.84rem; }
+    .contador { text-align:right; }
+    .opcoes { display:flex; flex-wrap:wrap; gap:8px; }
+    .opcao { display:flex; align-items:center; gap:7px; padding:8px 11px; border:1px solid var(--borda); border-radius:999px; cursor:pointer; font-weight:600; }
+    .opcao input { accent-color:var(--verde); }
+    .upload { display:block; padding:13px; border:1px dashed #9caea2; border-radius:10px; background:#fbfcfb; cursor:pointer; }
+    .upload input { display:block; max-width:100%; margin-top:8px; }
+    #previa-foto { display:none; max-width:100%; max-height:220px; margin-top:12px; border-radius:10px; object-fit:cover; }
+    .botao { width:100%; padding:14px 18px; border:0; border-radius:10px; background:var(--verde); color:var(--branco); font:inherit; font-weight:800; cursor:pointer; }
+    .botao:hover { background:var(--verde-escuro); }
+    .mensagem { display:none; margin-bottom:16px; padding:12px 14px; border-radius:10px; background:var(--verde-claro); color:var(--verde-escuro); font-size:.92rem; }
+    .mensagem.erro { background:#fff0ed; color:#7d261c; }
+    .lista { display:grid; gap:12px; }
+    .registro { padding:13px; border:1px solid var(--borda); border-radius:12px; }
+    .registro h3 { margin:0 0 4px; font-size:1rem; }
+    .registro p { margin:4px 0; color:var(--suave); font-size:.88rem; overflow-wrap:anywhere; }
+    .etiqueta { display:inline-block; margin-top:6px; padding:3px 9px; border-radius:999px; background:var(--verde-claro); color:var(--verde-escuro); font-size:.78rem; font-weight:800; }
+    .vazio { color:var(--suave); font-size:.92rem; }
+    .documentacao { margin-top:22px; scroll-margin-top:110px; }
+    .documentos { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .documento { display:block; min-height:116px; padding:16px; border:1px solid var(--borda); border-radius:12px; color:var(--texto); text-decoration:none; background:#fbfcfb; }
+    .documento:hover { border-color:var(--azul-claro); transform:translateY(-1px); }
+    .documento strong { display:block; color:var(--verde); margin-bottom:5px; }
+    .documento span { color:var(--suave); font-size:.86rem; }
 
-    * { box-sizing: border-box; }
+    .bot-float { position:fixed; right:22px; bottom:22px; z-index:40; width:58px; height:58px; border:0; border-radius:50%; background:var(--verde); color:white; box-shadow:0 10px 28px rgb(16 56 44 / 28%); font-size:25px; cursor:pointer; }
+    .chat { position:fixed; right:22px; bottom:92px; z-index:41; width:min(380px,calc(100% - 32px)); height:min(560px,calc(100vh - 120px)); display:none; flex-direction:column; overflow:hidden; border:1px solid var(--borda); border-radius:18px; background:white; box-shadow:0 18px 50px rgb(23 76 60 / 20%); }
+    .chat.aberto { display:flex; }
+    .chat-cabecalho { display:flex; align-items:center; justify-content:space-between; padding:14px 16px; background:var(--verde); color:white; }
+    .chat-cabecalho strong { display:block; }
+    .chat-cabecalho small { opacity:.86; }
+    .chat-fechar { border:0; background:transparent; color:white; font-size:22px; cursor:pointer; }
+    .chat-mensagens { flex:1; overflow-y:auto; padding:14px; background:#f8faf8; }
+    .bolha { max-width:88%; margin-bottom:10px; padding:10px 12px; border-radius:13px; font-size:.88rem; white-space:pre-line; }
+    .bolha.bot { background:white; border:1px solid var(--borda); border-bottom-left-radius:4px; }
+    .bolha.usuario { margin-left:auto; background:var(--verde); color:white; border-bottom-right-radius:4px; }
+    .chat-opcoes { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 10px; }
+    .chat-opcoes button { border:1px solid var(--borda); border-radius:999px; background:white; color:var(--verde); padding:7px 10px; cursor:pointer; font-size:.82rem; }
+    .chat-rodape { display:flex; gap:8px; padding:10px; border-top:1px solid var(--borda); }
+    .chat-rodape input { flex:1; min-width:0; padding:11px 12px; border:1px solid var(--borda); border-radius:999px; font:inherit; }
+    .chat-rodape button { width:42px; border:0; border-radius:50%; background:var(--verde); color:white; cursor:pointer; }
 
-    body {
-      margin: 0;
-      background: var(--fundo);
-      color: var(--texto);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      line-height: 1.5;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 20;
-      background: rgba(255,255,255,.96);
-      border-bottom: 3px solid var(--azul-claro);
-      backdrop-filter: blur(8px);
-    }
-
-    .barra,
-    main,
-    footer > div {
-      width: min(100% - 32px, 1120px);
-      margin-inline: auto;
-    }
-
-    .barra {
-      min-height: 78px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .marca {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: var(--verde);
-      font-size: 1.25rem;
-      font-weight: 800;
-    }
-
-    .marca img {
-      width: 58px;
-      height: 58px;
-      object-fit: contain;
-    }
-
-    nav { display: flex; gap: 8px; }
-
-    nav a,
-    .link-secundario {
-      color: var(--verde);
-      text-decoration: none;
-      font-weight: 700;
-    }
-
-    nav a {
-      padding: 9px 12px;
-      border-radius: 8px;
-    }
-
-    nav a:hover { background: var(--verde-claro); }
-
-    main { padding: 38px 0 24px; }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: end;
-      gap: 20px;
-      margin-bottom: 22px;
-    }
-
-    .hero h1 {
-      margin: 0 0 7px;
-      font-size: clamp(1.75rem, 4vw, 2.35rem);
-      line-height: 1.15;
-    }
-
-    .hero p { max-width: 650px; margin: 0; color: var(--suave); }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border: 1px solid var(--borda);
-      border-radius: 999px;
-      background: var(--branco);
-      color: var(--verde);
-      font-size: .84rem;
-      font-weight: 800;
-      white-space: nowrap;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.45fr) minmax(270px, .75fr);
-      gap: 22px;
-      align-items: start;
-    }
-
-    .cartao {
-      padding: 24px;
-      border: 1px solid var(--borda);
-      border-radius: 18px;
-      background: var(--branco);
-      box-shadow: var(--sombra);
-    }
-
-    .cartao h2 {
-      margin: 0 0 18px;
-      font-size: 1.16rem;
-    }
-
-    .campo { margin-bottom: 17px; }
-
-    label,
-    legend {
-      display: block;
-      margin-bottom: 7px;
-      font-size: .94rem;
-      font-weight: 700;
-    }
-
-    input[type="text"], select, textarea {
-      width: 100%;
-      padding: 12px 13px;
-      border: 1px solid var(--borda);
-      border-radius: 10px;
-      background: var(--branco);
-      color: var(--texto);
-      font: inherit;
-    }
-
-    textarea { min-height: 112px; resize: vertical; }
-
-    input:focus,
-    select:focus,
-    textarea:focus,
-    button:focus-visible,
-    a:focus-visible {
-      outline: 3px solid rgb(28 169 228 / 25%);
-      outline-offset: 2px;
-    }
-
-    .ajuda { display: block; margin-top: 6px; color: var(--suave); font-size: .84rem; }
-    .contador { text-align: right; }
-
-    .opcoes { display: flex; flex-wrap: wrap; gap: 8px; }
-
-    .opcao {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 8px 11px;
-      border: 1px solid var(--borda);
-      border-radius: 999px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .opcao input { accent-color: var(--verde); }
-
-    .upload {
-      display: block;
-      padding: 13px;
-      border: 1px dashed #9caea2;
-      border-radius: 10px;
-      background: #fbfcfb;
-      cursor: pointer;
-    }
-
-    .upload input { display: block; max-width: 100%; margin-top: 8px; }
-
-    #previa-foto {
-      display: none;
-      max-width: 100%;
-      max-height: 220px;
-      margin-top: 12px;
-      border-radius: 10px;
-      object-fit: cover;
-    }
-
-    .botao {
-      width: 100%;
-      padding: 14px 18px;
-      border: 0;
-      border-radius: 10px;
-      background: var(--verde);
-      color: var(--branco);
-      font: inherit;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .botao:hover { background: var(--verde-escuro); }
-
-    .mensagem {
-      display: none;
-      margin-bottom: 16px;
-      padding: 12px 14px;
-      border-radius: 10px;
-      background: var(--verde-claro);
-      color: var(--verde-escuro);
-      font-size: .92rem;
-    }
-
-    .mensagem.erro { background: #fff0ed; color: #7d261c; }
-
-    .lista { display: grid; gap: 12px; }
-
-    .registro {
-      padding: 13px;
-      border: 1px solid var(--borda);
-      border-radius: 12px;
-    }
-
-    .registro h3 { margin: 0 0 4px; font-size: 1rem; }
-    .registro p { margin: 4px 0; color: var(--suave); font-size: .88rem; overflow-wrap: anywhere; }
-
-    .etiqueta {
-      display: inline-block;
-      margin-top: 6px;
-      padding: 3px 9px;
-      border-radius: 999px;
-      background: var(--verde-claro);
-      color: var(--verde-escuro);
-      font-size: .78rem;
-      font-weight: 800;
-    }
-
-    .vazio { color: var(--suave); font-size: .92rem; }
-
-    .documentacao {
-      margin-top: 22px;
-      scroll-margin-top: 110px;
-    }
-
-    .documentos {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    .documento {
-      display: block;
-      min-height: 116px;
-      padding: 16px;
-      border: 1px solid var(--borda);
-      border-radius: 12px;
-      color: var(--texto);
-      text-decoration: none;
-      background: #fbfcfb;
-    }
-
-    .documento:hover { border-color: var(--azul-claro); transform: translateY(-1px); }
-    .documento strong { display: block; color: var(--verde); margin-bottom: 5px; }
-    .documento span { color: var(--suave); font-size: .86rem; }
-
-    footer { padding: 20px 0 28px; color: var(--suave); text-align: center; font-size: .85rem; }
-
-    @media (max-width: 760px) {
-      .barra { min-height: 70px; }
-      nav a:first-child { display: none; }
-      .marca img { width: 48px; height: 48px; }
-      main { padding-top: 28px; }
-      .hero { grid-template-columns: 1fr; }
-      .grid, .documentos { grid-template-columns: 1fr; }
-      .cartao { padding: 20px; }
-    }
+    footer { padding:20px 0 28px; color:var(--suave); text-align:center; font-size:.85rem; }
+    @media (max-width:760px) { .barra { min-height:70px; } nav a:first-child { display:none; } .marca img { width:48px; height:48px; } main { padding-top:28px; } .hero { grid-template-columns:1fr; } .grid,.documentos { grid-template-columns:1fr; } .cartao { padding:20px; } .bot-float { right:16px; bottom:16px; } .chat { right:16px; bottom:84px; } }
   </style>
 </head>
 <body>
   <header>
-    <div class="barra">
-      <div class="marca">
-        <img src="img/logo-udf.png" alt="UDF — Centro Universitário">
-        <span>Facul Resolve</span>
-      </div>
-      <nav aria-label="Navegação principal">
-        <a href="#mvp">MVP</a>
-        <a href="#documentacao">Documentação</a>
-      </nav>
-    </div>
+    <div class="barra"><div class="marca"><img src="img/logo-udf.png" alt="UDF — Centro Universitário"><span>Facul Resolve</span></div><nav aria-label="Navegação principal"><a href="#mvp">MVP</a><a href="#documentacao">Documentação</a></nav></div>
   </header>
-
   <main>
-    <section class="hero" id="mvp">
-      <div>
-        <h1>Registrar um problema no campus</h1>
-        <p>Informe o problema, a localização e a urgência para organizar os relatos da faculdade.</p>
-      </div>
-      <span class="badge">● Protótipo acadêmico</span>
-    </section>
-
+    <section class="hero" id="mvp"><div><h1>Registrar um problema no campus</h1><p>Informe o problema, a localização e a urgência para organizar os relatos da faculdade.</p></div><span class="badge">● Protótipo acadêmico</span></section>
     <div class="grid">
-      <section class="cartao" aria-labelledby="titulo-formulario">
-        <h2 id="titulo-formulario">Novo relato</h2>
-        <div id="mensagem" class="mensagem" role="status" aria-live="polite"></div>
-
+      <section class="cartao" aria-labelledby="titulo-formulario"><h2 id="titulo-formulario">Novo relato</h2><div id="mensagem" class="mensagem" role="status" aria-live="polite"></div>
         <form id="formulario">
-          <div class="campo">
-            <label for="tipo">Tipo de problema</label>
-            <select id="tipo" name="tipo" required>
-              <option value="">Selecione uma opção</option>
-              <option>Projetor ou equipamento</option>
-              <option>Banheiro sem papel</option>
-              <option>Lâmpada queimada</option>
-              <option>Wi-Fi sem funcionar</option>
-              <option>Cadeira ou mesa quebrada</option>
-              <option>Ar-condicionado com defeito</option>
-              <option>Bebedouro sem água</option>
-              <option>Limpeza ou conservação</option>
-              <option>Outro</option>
-            </select>
-          </div>
-
-          <div class="campo">
-            <label for="local">Local</label>
-            <input id="local" name="local" type="text" placeholder="Ex.: Bloco A, sala 203" maxlength="100" required>
-          </div>
-
-          <div class="campo">
-            <label for="descricao">Descrição</label>
-            <textarea id="descricao" name="descricao" placeholder="Descreva o problema e os detalhes que ajudem a localizá-lo." maxlength="500" required></textarea>
-            <span class="ajuda contador"><span id="quantidade">0</span>/500 caracteres</span>
-          </div>
-
-          <div class="campo">
-            <label class="upload" for="foto">
-              📷 Adicionar uma foto (opcional)
-              <span class="ajuda">Formatos de imagem; tamanho máximo: 5 MB.</span>
-              <input id="foto" name="foto" type="file" accept="image/*">
-              <img id="previa-foto" alt="Prévia da foto selecionada">
-            </label>
-          </div>
-
-          <fieldset class="campo" style="border:0;padding:0;margin-inline:0">
-            <legend>Urgência</legend>
-            <div class="opcoes">
-              <label class="opcao"><input type="radio" name="urgencia" value="Alta" required> 🔴 Alta</label>
-              <label class="opcao"><input type="radio" name="urgencia" value="Média"> 🟡 Média</label>
-              <label class="opcao"><input type="radio" name="urgencia" value="Baixa"> 🟢 Baixa</label>
-            </div>
-          </fieldset>
-
-          <button class="botao" type="submit">Enviar problema</button>
-          <p class="ajuda">Este MVP salva os relatos somente neste navegador.</p>
+          <div class="campo"><label for="tipo">Tipo de problema</label><select id="tipo" name="tipo" required><option value="">Selecione uma opção</option><option>Projetor ou equipamento</option><option>Banheiro sem papel</option><option>Lâmpada queimada</option><option>Wi-Fi sem funcionar</option><option>Cadeira ou mesa quebrada</option><option>Ar-condicionado com defeito</option><option>Bebedouro sem água</option><option>Limpeza ou conservação</option><option>Outro</option></select></div>
+          <div class="campo"><label for="local">Local</label><input id="local" name="local" type="text" placeholder="Ex.: Bloco A, sala 203" maxlength="100" required></div>
+          <div class="campo"><label for="descricao">Descrição</label><textarea id="descricao" name="descricao" placeholder="Descreva o problema e os detalhes que ajudem a localizá-lo." maxlength="500" required></textarea><span class="ajuda contador"><span id="quantidade">0</span>/500 caracteres</span></div>
+          <div class="campo"><label class="upload" for="foto">📷 Adicionar uma foto (opcional)<span class="ajuda">Formatos de imagem; tamanho máximo: 5 MB.</span><input id="foto" name="foto" type="file" accept="image/*"><img id="previa-foto" alt="Prévia da foto selecionada"></label></div>
+          <fieldset class="campo" style="border:0;padding:0;margin-inline:0"><legend>Urgência</legend><div class="opcoes"><label class="opcao"><input type="radio" name="urgencia" value="Alta" required> 🔴 Alta</label><label class="opcao"><input type="radio" name="urgencia" value="Média"> 🟡 Média</label><label class="opcao"><input type="radio" name="urgencia" value="Baixa"> 🟢 Baixa</label></div></fieldset>
+          <button class="botao" type="submit">Enviar problema</button><p class="ajuda">Este MVP salva os relatos somente neste navegador.</p>
         </form>
       </section>
-
-      <aside class="cartao" aria-labelledby="titulo-registros">
-        <h2 id="titulo-registros">Relatos neste dispositivo</h2>
-        <div id="lista-registros" class="lista">
-          <p class="vazio">Nenhum relato registrado ainda.</p>
-        </div>
-      </aside>
+      <aside class="cartao" aria-labelledby="titulo-registros"><h2 id="titulo-registros">Relatos neste dispositivo</h2><div id="lista-registros" class="lista"><p class="vazio">Nenhum relato registrado ainda.</p></div></aside>
     </div>
-
-    <section class="cartao documentacao" id="documentacao" aria-labelledby="titulo-documentacao">
-      <h2 id="titulo-documentacao">Documentação do projeto</h2>
-      <div class="documentos">
-        <a class="documento" href="https://github.com/Kadidjah/Analise_Projeto_Sistemas/blob/main/ProjetoAPS/README.md" target="_blank" rel="noopener noreferrer">
-          <strong>Visão geral do projeto</strong>
-          <span>Objetivos, estrutura, tecnologias e roteiro do ProjetoAPS.</span>
-        </a>
-        <a class="documento" href="https://github.com/Kadidjah/Analise_Projeto_Sistemas/blob/main/ProjetoAPS/Documentacao/Bot_Facul_Resolve.md" target="_blank" rel="noopener noreferrer">
-          <strong>Especificação do Facul Resolve</strong>
-          <span>Requisitos, funcionalidades e documentação do bot e MVP.</span>
-        </a>
-        <a class="documento" href="https://github.com/Kadidjah/Analise_Projeto_Sistemas/blob/main/ProjetoAPS/MoSCoW.md" target="_blank" rel="noopener noreferrer">
-          <strong>Priorização MoSCoW</strong>
-          <span>Funcionalidades classificadas por prioridade.</span>
-        </a>
-        <a class="documento" href="https://github.com/Kadidjah/Analise_Projeto_Sistemas/blob/main/ProjetoAPS/ficha-elicitacao-REQ-001.md" target="_blank" rel="noopener noreferrer">
-          <strong>Ficha de elicitação REQ-001</strong>
-          <span>Requisitos levantados e informações de elicitação.</span>
-        </a>
-        <a class="documento" href="https://github.com/Kadidjah/Analise_Projeto_Sistemas/blob/main/Unidade4/ModelagemSistemas/CASOS_de_USO.md" target="_blank" rel="noopener noreferrer">
-          <strong>Casos de uso</strong>
-          <span>Modelagem das interações do sistema.</span>
-        </a>
-        <a class="documento" href="https://github.com/Kadidjah/Analise_Projeto_Sistemas" target="_blank" rel="noopener noreferrer">
-          <strong>Repositório completo</strong>
-          <span>Acessar todos os arquivos e versões no GitHub.</span>
-        </a>
-      </div>
-    </section>
+    <section class="cartao documentacao" id="documentacao" aria-labelledby="titulo-documentacao"><h2 id="titulo-documentacao">Documentação do projeto</h2><div class="documentos"><a class="documento" href="https://github.com/Kadidjah/Analise_Projeto_Sistemas/blob/main/ProjetoAPS/README.md" target="_blank" rel="noopener"><strong>Visão geral do projeto</strong><span>Objetivos, estrutura e roteiro do ProjetoAPS.</span></a><a class="documento" href="https://github.com/Kadidjah/Analise_Projeto_Sistemas/blob/main/ProjetoAPS/Documentacao/Bot_Facul_Resolve.md" target="_blank" rel="noopener"><strong>Especificação do Facul Resolve</strong><span>Requisitos e documentação do bot e MVP.</span></a><a class="documento" href="https://github.com/Kadidjah/Analise_Projeto_Sistemas/blob/main/ProjetoAPS/MoSCoW.md" target="_blank" rel="noopener"><strong>Priorização MoSCoW</strong><span>Funcionalidades classificadas por prioridade.</span></a><a class="documento" href="https://github.com/Kadidjah/Analise_Projeto_Sistemas/blob/main/ProjetoAPS/ficha-elicitacao-REQ-001.md" target="_blank" rel="noopener"><strong>Ficha de elicitação REQ-001</strong><span>Requisitos levantados e elicitação.</span></a><a class="documento" href="https://github.com/Kadidjah/Analise_Projeto_Sistemas/blob/main/Unidade4/ModelagemSistemas/CASOS_de_USO.md" target="_blank" rel="noopener"><strong>Casos de uso</strong><span>Modelagem das interações do sistema.</span></a><a class="documento" href="https://github.com/Kadidjah/Analise_Projeto_Sistemas" target="_blank" rel="noopener"><strong>Repositório completo</strong><span>Acessar todos os arquivos no GitHub.</span></a></div></section>
   </main>
 
-  <footer>
-    <div>Disciplina: Análise e Projeto de Sistemas — Profª Kadidja Valéria — Faculdade UDF</div>
-  </footer>
+  <button id="abrir-chat" class="bot-float" aria-label="Abrir assistente Facul Resolve" title="Abrir assistente">💬</button>
+  <section id="chat" class="chat" aria-label="Assistente Facul Resolve" aria-live="polite">
+    <div class="chat-cabecalho"><div><strong>Facul Resolve</strong><small>Assistente do campus</small></div><button id="fechar-chat" class="chat-fechar" aria-label="Fechar">×</button></div>
+    <div id="chat-mensagens" class="chat-mensagens"></div>
+    <div class="chat-rodape"><input id="chat-input" type="text" placeholder="Digite sua mensagem" aria-label="Mensagem"><button id="chat-enviar" aria-label="Enviar">➤</button></div>
+  </section>
+
+  <footer><div>Disciplina: Análise e Projeto de Sistemas — Profª Kadidja Valéria — Faculdade UDF</div></footer>
 
   <script>
-    const CHAVE_REGISTROS = "facul-resolve-registros";
-    const formulario = document.querySelector("#formulario");
-    const mensagem = document.querySelector("#mensagem");
-    const listaRegistros = document.querySelector("#lista-registros");
-    const descricao = document.querySelector("#descricao");
-    const quantidade = document.querySelector("#quantidade");
-    const foto = document.querySelector("#foto");
-    const previaFoto = document.querySelector("#previa-foto");
-    let urlFoto = null;
+    const CHAVE_REGISTROS="facul-resolve-registros";
+    const formulario=document.querySelector("#formulario"), mensagem=document.querySelector("#mensagem"), listaRegistros=document.querySelector("#lista-registros"), descricao=document.querySelector("#descricao"), quantidade=document.querySelector("#quantidade"), foto=document.querySelector("#foto"), previaFoto=document.querySelector("#previa-foto");
+    let urlFoto=null;
 
-    function carregarRegistros() {
-      try { return JSON.parse(localStorage.getItem(CHAVE_REGISTROS)) || []; }
-      catch { return []; }
-    }
+    function carregarRegistros(){try{return JSON.parse(localStorage.getItem(CHAVE_REGISTROS))||[];}catch{return[];}}
+    function salvarRegistros(registros){localStorage.setItem(CHAVE_REGISTROS,JSON.stringify(registros));}
+    function exibirMensagem(texto,erro=false){mensagem.textContent=texto;mensagem.className=erro?"mensagem erro":"mensagem";mensagem.style.display="block";}
+    function novoProtocolo(){return `FR-${Date.now().toString().slice(-8)}`}
 
-    function salvarRegistros(registros) {
-      localStorage.setItem(CHAVE_REGISTROS, JSON.stringify(registros));
-    }
+    function mostrarRegistros(){const registros=carregarRegistros();listaRegistros.replaceChildren();if(!registros.length){const vazio=document.createElement("p");vazio.className="vazio";vazio.textContent="Nenhum relato registrado ainda.";listaRegistros.append(vazio);return;}registros.slice().reverse().forEach(registro=>{const artigo=document.createElement("article");artigo.className="registro";const titulo=document.createElement("h3");titulo.textContent=registro.tipo;const local=document.createElement("p");local.textContent=`📍 ${registro.local}`;const texto=document.createElement("p");texto.textContent=registro.descricao;const etiqueta=document.createElement("span");etiqueta.className="etiqueta";etiqueta.textContent=`Urgência: ${registro.urgencia}`;const protocolo=document.createElement("p");protocolo.textContent=`Protocolo: ${registro.protocolo}`;artigo.append(titulo,local,texto,etiqueta,protocolo);listaRegistros.append(artigo);});}
 
-    function exibirMensagem(texto, erro = false) {
-      mensagem.textContent = texto;
-      mensagem.className = erro ? "mensagem erro" : "mensagem";
-      mensagem.style.display = "block";
-    }
+    descricao.addEventListener("input",()=>quantidade.textContent=descricao.value.length);
+    foto.addEventListener("change",()=>{const arquivo=foto.files[0];if(urlFoto){URL.revokeObjectURL(urlFoto);urlFoto=null;}previaFoto.style.display="none";if(!arquivo)return;if(!arquivo.type.startsWith("image/")){foto.value="";exibirMensagem("Selecione um arquivo de imagem.",true);return;}if(arquivo.size>5*1024*1024){foto.value="";exibirMensagem("A imagem deve ter no máximo 5 MB.",true);return;}mensagem.style.display="none";urlFoto=URL.createObjectURL(arquivo);previaFoto.src=urlFoto;previaFoto.style.display="block";});
 
-    function mostrarRegistros() {
-      const registros = carregarRegistros();
-      listaRegistros.replaceChildren();
-
-      if (!registros.length) {
-        const vazio = document.createElement("p");
-        vazio.className = "vazio";
-        vazio.textContent = "Nenhum relato registrado ainda.";
-        listaRegistros.append(vazio);
-        return;
-      }
-
-      registros.slice().reverse().forEach((registro) => {
-        const artigo = document.createElement("article");
-        artigo.className = "registro";
-
-        const titulo = document.createElement("h3");
-        titulo.textContent = registro.tipo;
-
-        const local = document.createElement("p");
-        local.textContent = `📍 ${registro.local}`;
-
-        const textoDescricao = document.createElement("p");
-        textoDescricao.textContent = registro.descricao;
-
-        const etiqueta = document.createElement("span");
-        etiqueta.className = "etiqueta";
-        etiqueta.textContent = `Urgência: ${registro.urgencia}`;
-
-        const protocolo = document.createElement("p");
-        protocolo.textContent = `Protocolo: ${registro.protocolo}`;
-
-        artigo.append(titulo, local, textoDescricao, etiqueta, protocolo);
-        listaRegistros.append(artigo);
-      });
-    }
-
-    descricao.addEventListener("input", () => {
-      quantidade.textContent = descricao.value.length;
-    });
-
-    foto.addEventListener("change", () => {
-      const arquivo = foto.files[0];
-      if (urlFoto) { URL.revokeObjectURL(urlFoto); urlFoto = null; }
-      previaFoto.style.display = "none";
-      if (!arquivo) return;
-
-      if (!arquivo.type.startsWith("image/")) {
-        foto.value = "";
-        exibirMensagem("Selecione um arquivo de imagem.", true);
-        return;
-      }
-
-      if (arquivo.size > 5 * 1024 * 1024) {
-        foto.value = "";
-        exibirMensagem("A imagem deve ter no máximo 5 MB.", true);
-        return;
-      }
-
-      mensagem.style.display = "none";
-      urlFoto = URL.createObjectURL(arquivo);
-      previaFoto.src = urlFoto;
-      previaFoto.style.display = "block";
-    });
-
-    formulario.addEventListener("submit", (evento) => {
-      evento.preventDefault();
-
-      const dados = new FormData(formulario);
-      const registro = {
-        tipo: dados.get("tipo"),
-        local: dados.get("local").trim(),
-        descricao: dados.get("descricao").trim(),
-        urgencia: dados.get("urgencia"),
-        protocolo: `FR-${Date.now().toString().slice(-8)}`,
-        data: new Date().toISOString()
-      };
-
-      if (!registro.tipo || !registro.local || !registro.descricao || !registro.urgencia) {
-        exibirMensagem("Preencha todos os campos obrigatórios.", true);
-        return;
-      }
-
-      const registros = carregarRegistros();
-      registros.push(registro);
-
-      try {
-        salvarRegistros(registros);
-      } catch {
-        exibirMensagem("Não foi possível salvar: o armazenamento do navegador está cheio.", true);
-        return;
-      }
-
-      formulario.reset();
-      quantidade.textContent = "0";
-      previaFoto.style.display = "none";
-      if (urlFoto) { URL.revokeObjectURL(urlFoto); urlFoto = null; }
-      exibirMensagem(`Problema registrado com sucesso. Protocolo ${registro.protocolo}.`);
-      mostrarRegistros();
-    });
+    formulario.addEventListener("submit",evento=>{evento.preventDefault();const dados=new FormData(formulario);const registro={tipo:dados.get("tipo"),local:dados.get("local").trim(),descricao:dados.get("descricao").trim(),urgencia:dados.get("urgencia"),protocolo:novoProtocolo(),data:new Date().toISOString()};if(!registro.tipo||!registro.local||!registro.descricao||!registro.urgencia){exibirMensagem("Preencha todos os campos obrigatórios.",true);return;}const registros=carregarRegistros();registros.push(registro);try{salvarRegistros(registros);}catch{exibirMensagem("Não foi possível salvar: o armazenamento do navegador está cheio.",true);return;}formulario.reset();quantidade.textContent="0";previaFoto.style.display="none";if(urlFoto){URL.revokeObjectURL(urlFoto);urlFoto=null;}exibirMensagem(`Problema registrado com sucesso. Protocolo ${registro.protocolo}.`);mostrarRegistros();});
 
     mostrarRegistros();
+
+    const chat=document.querySelector("#chat"), abrirChat=document.querySelector("#abrir-chat"), fecharChat=document.querySelector("#fechar-chat"), chatMensagens=document.querySelector("#chat-mensagens"), chatInput=document.querySelector("#chat-input"), chatEnviar=document.querySelector("#chat-enviar");
+    let etapa="menu", rascunho={categoria:"",descricao:"",local:"",urgencia:""}, tentativas=0;
+
+    function adicionarMensagem(texto,quem="bot",opcoes=[]){const bolha=document.createElement("div");bolha.className=`bolha ${quem}`;bolha.textContent=texto;chatMensagens.append(bolha);if(opcoes.length){const area=document.createElement("div");area.className="chat-opcoes";opcoes.forEach(opcao=>{const botao=document.createElement("button");botao.type="button";botao.textContent=opcao.label;botao.addEventListener("click",()=>{adicionarMensagem(opcao.label,"usuario");opcao.acao();});area.append(botao);});chatMensagens.append(area);}chatMensagens.scrollTop=chatMensagens.scrollHeight;}
+
+    function iniciar(){etapa="menu";rascunho={categoria:"",descricao:"",local:"",urgencia:""};chatMensagens.replaceChildren();adicionarMensagem("Olá! Sou o assistente do Facul Resolve. Posso registrar um problema ou consultar um protocolo. O que você precisa?", "bot", [{label:"Registrar problema",acao:()=>iniciarRegistro()},{label:"Consultar protocolo",acao:()=>solicitarProtocolo()},{label:"Ajuda",acao:()=>ajuda()}]);}
+
+    function ajuda(){etapa="menu";adicionarMensagem("Posso ajudar a registrar problemas de projetor, banheiro, iluminação, Wi-Fi, mobiliário, ar-condicionado, bebedouro e outros. Também posso consultar protocolos registrados neste dispositivo.","bot",[{label:"Registrar problema",acao:()=>iniciarRegistro()},{label:"Consultar protocolo",acao:()=>solicitarProtocolo()}]);}
+
+    function iniciarRegistro(){etapa="categoria";adicionarMensagem("Qual problema você encontrou?", "bot", [{label:"Projetor",acao:()=>definirCategoria("Projetor ou equipamento")},{label:"Banheiro",acao:()=>definirCategoria("Banheiro sem papel")},{label:"Iluminação",acao:()=>definirCategoria("Lâmpada queimada")},{label:"Wi-Fi",acao:()=>definirCategoria("Wi-Fi sem funcionar")},{label:"Mobiliário",acao:()=>definirCategoria("Cadeira ou mesa quebrada")},{label:"Ar-condicionado",acao:()=>definirCategoria("Ar-condicionado com defeito")},{label:"Outro",acao:()=>definirCategoria("Outro")}]);}
+
+    function definirCategoria(categoria){rascunho.categoria=categoria;rascunho.descricao=categoria;etapa="local";adicionarMensagem("Onde acontece? Informe bloco, andar e sala ou um ponto de referência.","bot");}
+
+    function pedirUrgencia(){etapa="urgencia";adicionarMensagem("Qual a urgência percebida?", "bot", [{label:"Alta",acao:()=>definirUrgencia("Alta")},{label:"Média",acao:()=>definirUrgencia("Média")},{label:"Baixa",acao:()=>definirUrgencia("Baixa")}]);}
+
+    function definirUrgencia(urgencia){rascunho.urgencia=urgencia;etapa="confirmacao";adicionarMensagem(`Confira antes de enviar:\n• Problema: ${rascunho.categoria}\n• Descrição: ${rascunho.descricao}\n• Local: ${rascunho.local}\n• Urgência: ${rascunho.urgencia}`,"bot",[{label:"Enviar",acao:()=>salvarViaBot()},{label:"Corrigir",acao:()=>corrigir()},{label:"Cancelar",acao:()=>cancelar()}]);}
+
+    function corrigir(){etapa="categoria";adicionarMensagem("Vamos corrigir. Qual é o problema correto?", "bot", [{label:"Projetor",acao:()=>definirCategoria("Projetor ou equipamento")},{label:"Banheiro",acao:()=>definirCategoria("Banheiro sem papel")},{label:"Iluminação",acao:()=>definirCategoria("Lâmpada queimada")},{label:"Wi-Fi",acao:()=>definirCategoria("Wi-Fi sem funcionar")},{label:"Outro",acao:()=>definirCategoria("Outro")},{label:"Cancelar",acao:()=>cancelar()}]);}
+
+    function cancelar(){etapa="menu";rascunho={categoria:"",descricao:"",local:"",urgencia:""};adicionarMensagem("Registro cancelado. Nenhuma ocorrência foi criada.","bot",[{label:"Registrar novo problema",acao:()=>iniciarRegistro()},{label:"Consultar protocolo",acao:()=>solicitarProtocolo()}]);}
+
+    function salvarViaBot(){try{const registros=carregarRegistros(),registro={tipo:rascunho.categoria,descricao:rascunho.descricao,local:rascunho.local,urgencia:rascunho.urgencia,protocolo:novoProtocolo(),data:new Date().toISOString()};registros.push(registro);salvarRegistros(registros);mostrarRegistros();etapa="menu";adicionarMensagem(`Ocorrência registrada. Seu protocolo é ${registro.protocolo}. Guarde-o para consultar o andamento neste dispositivo.`,"bot",[{label:"Consultar protocolo",acao:()=>solicitarProtocolo()},{label:"Novo registro",acao:()=>iniciarRegistro()}]);}catch{adicionarMensagem("Não foi possível enviar agora. Nenhuma ocorrência foi criada. Tente novamente ou use o formulário da página.","bot",[{label:"Tentar novamente",acao:()=>definirUrgencia(rascunho.urgencia)}]);}}
+
+    function solicitarProtocolo(){etapa="consulta";tentativas=0;adicionarMensagem("Informe o protocolo da ocorrência, por exemplo FR-12345678.","bot");}
+
+    function processarMensagem(texto){const resposta=texto.trim();if(!resposta)return;adicionarMensagem(resposta,"usuario");const normalizada=resposta.toLowerCase();if(normalizada.includes("cancel")||normalizada==="sair"){cancelar();return;}if(etapa==="menu"){if(normalizada.includes("consult")||normalizada.includes("protocolo")||normalizada.includes("acompanhar")){solicitarProtocolo();}else if(normalizada.includes("ajuda")||normalizada.includes("o que")){ajuda();}else if(normalizada.includes("registr")||normalizada.includes("problema")||normalizada.includes("chamado")||normalizada.includes("reportar")){iniciarRegistro();}else{adicionarMensagem("Não reconheci a solicitação. Posso registrar um problema ou consultar um protocolo.","bot",[{label:"Registrar problema",acao:()=>iniciarRegistro()},{label:"Consultar protocolo",acao:()=>solicitarProtocolo()}]);}return;}if(etapa==="categoria"){for(const item of [["projetor","Projetor ou equipamento"],["banheiro","Banheiro sem papel"],["lâmpada","Lâmpada queimada"],["lampada","Lâmpada queimada"],["wi-fi","Wi-Fi sem funcionar"],["cadeira","Cadeira ou mesa quebrada"],["mesa","Cadeira ou mesa quebrada"],["ar-condicionado","Ar-condicionado com defeito"],["bebedouro","Bebedouro sem água"]]){if(normalizada.includes(item[0])){definirCategoria(item[1]);return;}}definirCategoria("Outro");return;}if(etapa==="local"){rascunho.local=resposta;rascunho.descricao=rascunho.categoria;pedirUrgencia();return;}if(etapa==="urgencia"){if(normalizada.includes("alta")){definirUrgencia("Alta");}else if(normalizada.includes("baixa")){definirUrgencia("Baixa");}else{definirUrgencia("Média");}return;}if(etapa==="confirmacao"){if(normalizada.startsWith("sim")||normalizada.includes("enviar")||normalizada.includes("confirmar")){salvarViaBot();}else if(normalizada.includes("corrig")){corrigir();}else if(normalizada.includes("cancel")||normalizada.includes("não")||normalizada.includes("nao")){cancelar();}else{adicionarMensagem("Responda enviando, corrigindo ou cancelando.","bot",[{label:"Enviar",acao:()=>salvarViaBot()},{label:"Corrigir",acao:()=>corrigir()},{label:"Cancelar",acao:()=>cancelar()}]);}return;}if(etapa==="consulta") {const encontrados=carregarRegistros().filter(r=>r.protocolo.toUpperCase()===resposta.toUpperCase());if(encontrados.length){const r=encontrados[encontrados.length-1];adicionarMensagem(`Protocolo: ${r.protocolo}\nStatus: Registrado neste dispositivo\nAtualização: ${new Date(r.data).toLocaleString("pt-BR")}\nLocal: ${r.local}\nUrgência: ${r.urgencia}`,"bot",[{label:"Novo registro",acao:()=>iniciarRegistro()}]);etapa="menu";}else{tentativas++;if(tentativas>=3){adicionarMensagem("Não encontrei o protocolo após algumas tentativas. Confira o número ou use o canal humano oficial da instituição.","bot",[{label:"Tentar outro protocolo",acao:()=>solicitarProtocolo()},{label:"Voltar ao início",acao:()=>iniciar()}]);etapa="menu";}else{adicionarMensagem("Protocolo não localizado neste dispositivo. Confira o número e tente novamente.","bot");}}}}
+
+    abrirChat.addEventListener("click",()=>{chat.classList.add("aberto");abrirChat.setAttribute("aria-expanded","true");if(!chatMensagens.children.length)iniciar();chatInput.focus();});fecharChat.addEventListener("click",()=>chat.classList.remove("aberto"));chatEnviar.addEventListener("click",()=>{processarMensagem(chatInput.value);chatInput.value="";});chatInput.addEventListener("keydown",evento=>{if(evento.key==="Enter"){evento.preventDefault();processarMensagem(chatInput.value);chatInput.value="";}});
   </script>
 </body>
 </html>
